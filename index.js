@@ -10,6 +10,7 @@ const customers = [
     {id:3, name: "Claire"}
 ]
 
+// Verify Token
 function verifyToken(req, res, next){
     const bearerHeader = req.headers['authorization']
 
@@ -22,16 +23,12 @@ function verifyToken(req, res, next){
     }
 }
 
-
-
-
 //GET Method
-
-//test
 app.get ('/', (req,res) => {
     res.send('hello world');
 });
 
+// GET customers
 app.get ('/api/customers', verifyToken, (req,res) => {
     jwt.verify(req.token, 'secret', (err, authData) =>{
         if(err){
@@ -43,6 +40,7 @@ app.get ('/api/customers', verifyToken, (req,res) => {
     })
 });
 
+// GET specific id
 app.get('/api/customers/:id', (req,res) => {
     const customer = customers.find(c => c.id == parseInt(req.params.id));
     if(!customer){
@@ -52,6 +50,7 @@ app.get('/api/customers/:id', (req,res) => {
     res.send(customer)
 })
 
+// GET Login
 app.get('/api/login', (req, res) => {
     const customer = {
         //read usernmae from body
@@ -120,7 +119,7 @@ app.delete('/api/customers/:id', (req, res) => {
 })
 
 // app.listen(3000, () => console.log('Listening to port 3000'))
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.warn(`App listneing on ${PORT}`);
 })
